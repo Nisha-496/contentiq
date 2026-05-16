@@ -82,13 +82,21 @@ public class HuggingFaceSentimentClient {
                 return neutralFallback(expected);
             }
             if (root.isArray()) {
-                for (JsonNode item : root) {
-                    if (item.isArray()) {
-                        out.add(topLabel(item));
-                    } else if (item.isObject() && item.has("label")) {
+                if (root.size() == 1 && root.get(0).isArray() && root.get(0).size() == expected) {
+                    for (JsonNode entry : root.get(0)) {
                         out.add(new SentimentResult(
-                                normalize(item.get("label").asText()),
-                                item.path("score").asDouble(0.0)));
+                                normalize(entry.path("label").asText("neutral")),
+                                entry.path("score").asDouble(0.0)));
+                    }
+                } else {
+                    for (JsonNode item : root) {
+                        if (item.isArray()) {
+                            out.add(topLabel(item));
+                        } else if (item.isObject() && item.has("label")) {
+                            out.add(new SentimentResult(
+                                    normalize(item.get("label").asText()),
+                                    item.path("score").asDouble(0.0)));
+                        }
                     }
                 }
             }
