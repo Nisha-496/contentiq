@@ -2,6 +2,7 @@
 
 > AI-powered YouTube Content Intelligence Platform — fetch any video's comments, classify their sentiment with HuggingFace, and turn transcripts into structured PDF notes with Claude.
 
+[![CI](https://github.com/Nisha-496/contentiq/actions/workflows/ci.yml/badge.svg)](https://github.com/Nisha-496/contentiq/actions/workflows/ci.yml)
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/projects/jdk/21/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.14-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev/)
@@ -290,7 +291,7 @@ PDF generated at `generated-pdfs/sentiment_*.pdf`, deterministic summary persist
 
 - **HuggingFace cold starts**: first request to a long-idle model can take 10–30s. Subsequent calls return in ~500ms.
 - **Question detection is client-side**: backend stores `category=GENERAL` for all comments. The frontend filters on text shape. Swap in a multi-label classifier if you want backend-side category persistence.
-- **No automated tests** beyond the default empty `ContentiqApplicationTests`. The full pipeline was verified manually with curl + browser.
+- **Unit tests**: 50 tests cover `VideoUrlParser`, `JwtUtil`, the `HuggingFaceSentimentClient` response parser, `CommentSummaryStrategy`, and `SentimentAnalysisStrategy` (mocked HF). Run with `./mvnw test`. CI runs them on every push via [GitHub Actions](.github/workflows/ci.yml). Integration-level coverage (controllers, Mongo interactions) is **not yet** included — those were verified manually with curl + the browser.
 - **iText 8 license**: AGPL for OSS use, commercial license required for closed-source production deployment.
 
 ---
