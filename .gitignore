@@ -37,3 +37,4 @@ build/
 
 ### Generated PDFs ###
 generated-pdfs/
+application.properties
