@@ -73,7 +73,7 @@ public class HuggingFaceSentimentClient {
         }
     }
 
-    private List<SentimentResult> parse(String response, int expected) {
+    List<SentimentResult> parse(String response, int expected) {
         List<SentimentResult> out = new ArrayList<>(expected);
         try {
             JsonNode root = objectMapper.readTree(response);
@@ -109,7 +109,7 @@ public class HuggingFaceSentimentClient {
         return out;
     }
 
-    private SentimentResult topLabel(JsonNode scoreArray) {
+    SentimentResult topLabel(JsonNode scoreArray) {
         String bestLabel = "NEUTRAL";
         double bestScore = -1.0;
         for (JsonNode candidate : scoreArray) {
@@ -122,7 +122,7 @@ public class HuggingFaceSentimentClient {
         return new SentimentResult(bestLabel, Math.max(0.0, bestScore));
     }
 
-    private String normalize(String label) {
+    String normalize(String label) {
         if (label == null) return "NEUTRAL";
         return switch (label.toLowerCase()) {
             case "positive", "label_2" -> "POSITIVE";
