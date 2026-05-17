@@ -10,11 +10,19 @@ body,
 }
 
 body {
-  background: radial-gradient(ellipse at top, rgba(18, 125, 245, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at bottom, rgba(122, 79, 255, 0.06) 0%, transparent 50%),
-    #020617;
+  background-color: #020617;
+  background-image: radial-gradient(ellipse 80% 60% at top, rgba(18, 125, 245, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at bottom, rgba(122, 79, 255, 0.10) 0%, transparent 50%);
   background-attachment: fixed;
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-feature-settings: 'cv11', 'ss01', 'ss03';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(40, 157, 255, 0.35);
+  color: white;
 }
 
 ::-webkit-scrollbar {
@@ -25,22 +33,29 @@ body {
   background: #0f172a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: linear-gradient(180deg, #1e293b, #0f172a);
   border-radius: 6px;
+  border: 2px solid #0f172a;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: linear-gradient(180deg, #334155, #1e293b);
 }
 
 @layer components {
   .glass {
-    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 shadow-xl shadow-black/20;
+    @apply bg-slate-900/50 backdrop-blur-xl border border-slate-800/80 shadow-xl shadow-black/30;
+  }
+  .glass-strong {
+    @apply bg-slate-900/70 backdrop-blur-2xl border border-slate-700/60 shadow-2xl shadow-black/40;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-medium
-           bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white
-           transition-all duration-200 shadow-lg shadow-brand-900/40
-           disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply relative inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold
+           text-white tracking-tight
+           bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700
+           hover:from-brand-400 hover:via-brand-500 hover:to-brand-600
+           shadow-lg shadow-brand-900/50 hover:shadow-glow
+           transition-all duration-300 hover:-translate-y-0.5
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg;
   }
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium
@@ -48,9 +63,30 @@ body {
            transition-all duration-200;
   }
   .input {
-    @apply w-full px-4 py-2.5 rounded-lg bg-slate-900/80 border border-slate-700
+    @apply w-full px-4 py-3 rounded-xl bg-slate-900/70 border border-slate-700/80
            text-slate-100 placeholder-slate-500
-           focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500
+           focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500/60
+           hover:border-slate-600
            transition-all duration-200;
+  }
+  .gradient-text {
+    @apply bg-gradient-to-br from-white via-slate-100 to-slate-400 bg-clip-text text-transparent;
+  }
+  .brand-text {
+    @apply bg-gradient-to-br from-brand-300 via-brand-400 to-purple-400 bg-clip-text text-transparent;
+  }
+  .stagger-1 { animation-delay: 50ms; }
+  .stagger-2 { animation-delay: 120ms; }
+  .stagger-3 { animation-delay: 200ms; }
+  .stagger-4 { animation-delay: 290ms; }
+  .stagger-5 { animation-delay: 390ms; }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
   }
 }
